@@ -1,0 +1,174 @@
+{
+  "services": [
+    {
+      "slug": "ai-video",
+      "title": "AI Video",
+      "copy": "AI-powered concept videos, faceless content, avatar-style edits, automation visuals, and modern social content.",
+      "icon": "AI",
+      "span": "lg:col-span-2"
+    },
+    {
+      "slug": "logo-design",
+      "title": "Logo Design",
+      "copy": "Clean brand marks, logo concepts, animated logo reveals, and visual identity assets for creators and businesses.",
+      "icon": "LOGO",
+      "span": ""
+    },
+    {
+      "slug": "documentary-video",
+      "title": "Documentary Video",
+      "copy": "Story-driven documentary edits with interview pacing, b-roll structure, emotional music, and cinematic finishing.",
+      "icon": "DOC",
+      "span": ""
+    },
+    {
+      "slug": "reel-video",
+      "title": "Reel Video",
+      "copy": "High-retention reels with strong hooks, captions, beat cuts, transitions, sound effects, and platform-ready pacing.",
+      "icon": "REEL",
+      "span": "lg:col-span-2"
+    },
+    {
+      "slug": "saas-video",
+      "title": "SaaS Video",
+      "copy": "Product demos, explainer videos, app walkthroughs, launch promos, and conversion-focused SaaS marketing videos.",
+      "icon": "SaaS",
+      "span": "lg:col-span-3"
+    }
+  ],
+  "serviceVideoLibrary": {
+    "ai-video": [
+      {
+        "title": "AI Avatar Promo",
+        "type": "AI Promo",
+        "duration": "00:45",
+        "result": "Avatar scene flow, captions, voice sync, and futuristic motion style",
+        "thumbnail": "/thumbnails/day 2 x.png"
+      },
+      {
+        "title": "Faceless AI Reel",
+        "type": "Short Form",
+        "duration": "00:32",
+        "result": "Script pacing, stock visuals, AI voiceover, and retention captions",
+        "thumbnail": "/thumbnails/day 3 x.png"
+      },
+      {
+        "title": "AI Product Concept",
+        "type": "Concept Video",
+        "duration": "01:10",
+        "result": "Generated visuals, product story, cinematic sound, and clean CTA",
+        "thumbnail": "/thumbnails/day 4 x.png"
+      }
+    ],
+    "logo-design": [],
+    "documentary-video": [
+      {
+        "title": "Founder Journey Film",
+        "type": "Documentary",
+        "duration": "06:40",
+        "result": "Interview pacing, b-roll structure, emotional arc, and cinematic grade",
+        "thumbnail": "/thumbnails/day 5 x.png"
+      },
+      {
+        "title": "Travel Story Sequence",
+        "type": "Cinematic",
+        "duration": "04:12",
+        "result": "Montage structure, ambience, transitions, and immersive sound design",
+        "thumbnail": "/thumbnails/day 6 x.png"
+      },
+      {
+        "title": "Mini Documentary Opening",
+        "type": "Trailer",
+        "duration": "01:20",
+        "result": "Hook intro, title design, music build, and story-driven pacing",
+        "thumbnail": "/thumbnails/day 7 x.png"
+      }
+    ],
+    "reel-video": [
+      {
+        "title": "Fitness Reel With Captions",
+        "type": "Vertical Reel",
+        "duration": "00:38",
+        "result": "Hook, captions, beat cuts, zooms, sound effects, and fast pacing",
+        "thumbnail": "/thumbnails/day 9 x.png"
+      },
+      {
+        "title": "Product Reel Ad",
+        "type": "Short Ad",
+        "duration": "00:24",
+        "result": "Product highlights, kinetic text, transition cuts, and CTA ending",
+        "thumbnail": "/thumbnails/day10 x.png"
+      },
+      {
+        "title": "Creator Highlight Reel",
+        "type": "Creator Reel",
+        "duration": "00:51",
+        "result": "Jump cuts, captions, b-roll, sound design, and scroll-stopping edit",
+        "thumbnail": "/thumbnails/day11 x.png"
+      }
+    ],
+    "saas-video": [
+      {
+        "title": "SaaS Product Demo",
+        "type": "Product Demo",
+        "duration": "01:15",
+        "result": "Screen flow, feature highlights, cursor movement, captions, and CTA",
+        "thumbnail": "/thumbnails/day12 x.png"
+      },
+      {
+        "title": "App Explainer Video",
+        "type": "Explainer",
+        "duration": "01:35",
+        "result": "Problem-solution structure, UI callouts, motion graphics, and clean narration",
+        "thumbnail": "/thumbnails/day13 x.png"
+      },
+      {
+        "title": "SaaS Launch Promo",
+        "type": "Launch Video",
+        "duration": "00:55",
+        "result": "Fast feature montage, benefit-led copy, transitions, and conversion-focused ending",
+        "thumbnail": "/thumbnails/day14 x.png"
+      }
+    ]
+  },
+  "logoGallery": {
+    "logo-design": [
+      {
+        "title": "Minimal Brand Mark",
+        "style": "Minimal",
+        "description": "Clean symbol-based logo concept for modern creators and startups.",
+        "initials": "MB"
+      },
+      {
+        "title": "Creator Channel Logo",
+        "style": "Creator Brand",
+        "description": "Bold social avatar logo with strong contrast and memorable initials.",
+        "initials": "CC"
+      },
+      {
+        "title": "SaaS Product Logo",
+        "style": "Tech",
+        "description": "Sharp product logo direction for SaaS dashboards and landing pages.",
+        "initials": "SP"
+      },
+      {
+        "title": "Luxury Media Logo",
+        "style": "Premium",
+        "description": "Elegant logo concept with premium spacing, typography, and color balance.",
+        "initials": "LM"
+      },
+      {
+        "title": "AI Studio Logo",
+        "style": "Futuristic",
+        "description": "Futuristic mark made for AI content brands and automation services.",
+        "initials": "AI"
+      },
+      {
+        "title": "Personal Brand Logo",
+        "style": "Signature",
+        "description": "Personal identity logo for freelancers, founders, and video creators.",
+        "initials": "PB"
+      }
+    ]
+  }
+}

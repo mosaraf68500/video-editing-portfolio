@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Sarah Mitchell",
+    "role": "YouTube Creator",
+    "quote": "The pacing, captions, and music choices lifted my average watch time immediately.",
+    "rating": 5,
+    "image": "/testimonials/sarah-mitchell.svg"
+  },
+  {
+    "name": "Daniel Brooks",
+    "role": "Agency Founder",
+    "quote": "Clean communication, polished edits, and delivery ahead of schedule every time.",
+    "rating": 5,
+    "image": "/testimonials/daniel-brooks.svg"
+  },
+  {
+    "name": "Nina Carter",
+    "role": "Brand Manager",
+    "quote": "Our campaign videos finally looked premium and matched the energy of our brand.",
+    "rating": 5,
+    "image": "/testimonials/nina-carter.svg"
+  },
+  {
+    "name": "Omar Rahman",
+    "role": "Podcast Host",
+    "quote": "The multi-cam cuts and audio cleanup made our long-form episodes feel broadcast ready.",
+    "rating": 5,
+    "image": "/testimonials/omar-rahman.svg"
+  }
+]
