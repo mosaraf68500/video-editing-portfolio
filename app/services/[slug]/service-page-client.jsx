@@ -209,32 +209,14 @@ export default function ServicePageClient({ logos, service, videos, services }) 
               {selectedVideo.title}
             </h2>
           </div>
-          <div className="relative h-screen w-screen bg-black">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(168,85,247,0.72),transparent_18rem),linear-gradient(150deg,#100b2d,#02030d)]" />
-            <div className="absolute inset-0 grid place-items-center p-8 text-center">
-              <div>
-                <div className="mx-auto grid h-24 w-24 place-items-center rounded-full bg-white text-slate-950 shadow-[0_0_56px_rgba(168,85,247,0.9)]">
-                  <span className="ml-1 h-0 w-0 border-y-[18px] border-l-[28px] border-y-transparent border-l-slate-950" />
-                </div>
-                <p className="mt-7 text-3xl font-black text-white">
-                  Full Screen Video Preview
-                </p>
-                <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-300">
-                  {selectedVideo.result}. Real MP4 ba YouTube embed add korle ei
-                  full screen area-te actual video play korbe.
-                </p>
-              </div>
-            </div>
-            <div className="absolute inset-x-6 bottom-8 flex items-center gap-4">
-              <span className="text-xs font-black text-violet-200">00:00</span>
-              <div className="h-2 flex-1 rounded-full bg-white/15">
-                <div className="h-2 w-2/3 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-400" />
-              </div>
-              <span className="text-xs font-black text-violet-200">
-                {selectedVideo.duration}
-              </span>
-            </div>
-          </div>
+          <iframe
+            className="h-screen w-screen"
+            src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0`}
+            title={selectedVideo.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
         </div>
       ) : null}
     </main>

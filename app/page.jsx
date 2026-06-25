@@ -55,37 +55,37 @@ const portfolioItems = [
   {
     title: "Creator Launch Film",
     category: "Brand Story",
-    youtubeId: "VIDEO_ID_1",
+    youtubeId: "Z_mxQ1CA-34",
     thumbnail: "/thumbnails/edits that convert.jpg",
   },
   {
     title: "Fitness Reel Series",
     category: "Short Form",
-    youtubeId: "VIDEO_ID_2",
+    youtubeId: "Z_mxQ1CA-34",
     thumbnail: "/thumbnails/day 1 x.png",
   },
   {
     title: "Tech Review Episode",
     category: "YouTube Edit",
-    youtubeId: "VIDEO_ID_3",
+    youtubeId: "Z_mxQ1CA-34",
     thumbnail: "/thumbnails/nokia.png",
   },
   {
     title: "Brand Story Video",
     category: "Commercial",
-    youtubeId: "VIDEO_ID_4",
+    youtubeId: "Z_mxQ1CA-34",
     thumbnail: "/thumbnails/$4 TRILLION.jpg",
   },
   {
     title: "Wedding Highlight",
     category: "Cinematic",
-    youtubeId: "VIDEO_ID_5",
+    youtubeId: "Z_mxQ1CA-34",
     thumbnail: "/thumbnails/wedding card.jpg",
   },
   {
     title: "Product Promo Cut",
     category: "Ad Edit",
-    youtubeId: "VIDEO_ID_6",
+    youtubeId: "Z_mxQ1CA-34",
     thumbnail: "/thumbnails/adf.png",
   },
 ];
@@ -539,6 +539,9 @@ export default function Home() {
       <section id="faq" className="border-t border-violet-500/5 py-24">
         <div className="section-shell">
           <div className="mx-auto mb-12 max-w-5xl text-center">
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-violet-300">
+              FAQ
+            </p>
             <h2 className="text-4xl font-black tracking-tight text-white sm:text-5xl">
               Frequently Asked Questions
             </h2>
@@ -549,11 +552,15 @@ export default function Home() {
               solutions.
             </p>
           </div>
-          <div className="mx-auto grid max-w-4xl gap-3">
+          <div className="mx-auto grid max-w-4xl gap-4">
             {faqItems.map((item, index) => (
               <article
                 key={item.question}
-                className="group border border-[#8A1FFF]/70 bg-black/25 px-5 py-4 transition hover:border-[#8A1FFF] hover:bg-[#8A1FFF]/10 hover:shadow-[0_0_26px_rgba(138,31,255,0.28)]"
+                className={`rounded-2xl border bg-[#08091b]/80 px-5 py-4 shadow-[0_18px_50px_rgba(0,0,0,0.25)] transition ${
+                  openFaq === index
+                    ? "border-[#8A1FFF]/80 bg-[#120b2a]"
+                    : "border-white/10 hover:border-[#8A1FFF]/45"
+                }`}
               >
                 <button
                   type="button"
@@ -561,18 +568,20 @@ export default function Home() {
                   className="flex w-full items-center gap-4 text-left"
                   aria-expanded={openFaq === index}
                 >
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md border border-[#8A1FFF]/50 text-xs font-black text-white">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#8A1FFF]/15 text-xs font-black text-white">
                     {item.icon}
                   </span>
                   <span className="flex-1 text-base font-semibold text-white sm:text-lg">
                     {item.question}
                   </span>
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/10 text-xl font-black text-white">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/10 text-xl font-black text-white">
                     {openFaq === index ? "-" : "+"}
                   </span>
                 </button>
                 {openFaq === index ? (
-                  <p className="mt-4 pl-12 leading-7 text-white/85">{item.answer}</p>
+                  <p className="mt-4 border-t border-white/10 pt-4 leading-7 text-slate-300 sm:pl-13">
+                    {item.answer}
+                  </p>
                 ) : null}
               </article>
             ))}
