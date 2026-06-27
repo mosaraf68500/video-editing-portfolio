@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const defaultVideoThumbnail = "/thumbnails/video-thumbnail.svg";
 const whatsappMessage =
@@ -19,14 +19,27 @@ const navLinks = [
   { label: "About Me", href: "/#about" },
 ];
 
-function VideoCard({ video, onPlay }) {
+function VideoCard({ onPlay, onPreviewEnd, onPreviewStart, previewVideo, video }) {
   return (
     <article
+      data-video-card
       role="button"
       tabIndex={0}
-      onClick={() => onPlay(video)}
+      onMouseEnter={() => onPreviewStart(video.title)}
+      onMouseLeave={onPreviewEnd}
+      onTouchStart={(event) => {
+        if (previewVideo !== video.title) {
+          event.preventDefault();
+          onPreviewStart(video.title);
+        }
+      }}
+      onClick={() => {
+        onPreviewEnd();
+        onPlay(video);
+      }}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
+          onPreviewEnd();
           onPlay(video);
         }
       }}
@@ -41,6 +54,14 @@ function VideoCard({ video, onPlay }) {
           className="object-cover transition duration-300 group-hover:scale-105"
           sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
         />
+        {previewVideo === video.title ? (
+          <iframe
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${video.youtubeId}&rel=0`}
+            title={`${video.title} preview`}
+            allow="autoplay; encrypted-media; picture-in-picture; web-share"
+          />
+        ) : null}
         <div className="absolute inset-0 bg-black/25" />
         <div className="absolute left-5 top-5 rounded-full bg-black/45 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-violet-200 backdrop-blur">
           {video.type}
@@ -48,9 +69,9 @@ function VideoCard({ video, onPlay }) {
         <div className="absolute right-5 top-5 rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white backdrop-blur">
           {video.duration}
         </div>
-        <div className="absolute inset-0 grid place-items-center">
-          <span className="grid h-16 w-16 place-items-center rounded-full bg-white text-slate-950 shadow-[0_0_38px_rgba(168,85,247,0.75)] transition group-hover:scale-110">
-            <span className="ml-1 h-0 w-0 border-y-[12px] border-l-[18px] border-y-transparent border-l-slate-950" />
+        <div className="absolute inset-0 grid place-items-center transition duration-300 group-hover:opacity-0">
+          <span className="grid h-16 w-16 place-items-center rounded-full text-white drop-shadow-[0_0_18px_rgba(168,85,247,0.95)] transition group-hover:scale-110">
+            <span className="ml-1 h-0 w-0 border-y-[12px] border-l-[18px] border-y-transparent border-l-white" />
           </span>
         </div>
         <div className="absolute inset-x-5 bottom-5">
@@ -86,7 +107,20 @@ function LogoCard({ logo }) {
 
 export default function ServicePageClient({ logos, service, videos, services }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [previewVideo, setPreviewVideo] = useState(null);
   const isLogoDesign = service.slug === "logo-design";
+
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (!event.target.closest("[data-video-card]")) {
+        setPreviewVideo(null);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#050617] text-white">
@@ -142,14 +176,14 @@ export default function ServicePageClient({ logos, service, videos, services }) 
           <div className="grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-end">
             <div>
               <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-violet-300">
-                {isLogoDesign ? "Logo Gallery" : "Service Videos"}
+                {isLogoDesign ? "Logo Videos & Gallery" : "Service Videos"}
               </p>
               <h1 className="text-4xl font-black tracking-tight sm:text-6xl">
                 {service.title} <span className="gradient-text">Portfolio</span>
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
                 {isLogoDesign
-                  ? `${service.copy} Nicher logo-gulo ei service-er example design concepts.`
+                  ? `${service.copy} Nicher logo videos and design concepts ei service-er example work.`
                   : `${service.copy} Nicher video-gulo ei service-er example work. Video card-e click korle full screen preview open hobe.`}
               </p>
             </div>
@@ -179,19 +213,23 @@ export default function ServicePageClient({ logos, service, videos, services }) 
 
       <section className="pb-24">
         <div className="section-shell grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {isLogoDesign
-            ? logos.map((logo) => <LogoCard key={logo.title} logo={logo} />)
-            : videos.map((video) => (
+          {videos.map((video) => (
                 <VideoCard
                   key={video.title}
                   video={video}
+                  previewVideo={previewVideo}
+                  onPreviewStart={setPreviewVideo}
+                  onPreviewEnd={() => setPreviewVideo(null)}
                   onPlay={setSelectedVideo}
                 />
               ))}
+          {isLogoDesign
+            ? logos.map((logo) => <LogoCard key={logo.title} logo={logo} />)
+            : null}
         </div>
       </section>
 
-      {!isLogoDesign && selectedVideo ? (
+      {selectedVideo ? (
         <div className="fixed inset-0 z-[90] bg-black">
           <button
             type="button"

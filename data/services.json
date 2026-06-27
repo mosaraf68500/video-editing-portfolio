@@ -29,6 +29,13 @@
       "span": "lg:col-span-2"
     },
     {
+      "slug": "google-ads-video",
+      "title": "Google Ads Video",
+      "copy": "Conversion-focused ad videos with strong hooks, clear messaging, product highlights, captions, and polished calls to action.",
+      "icon": "ADS",
+      "span": ""
+    },
+    {
       "slug": "saas-video",
       "title": "SaaS Video",
       "copy": "Product demos, explainer videos, app walkthroughs, launch promos, and conversion-focused SaaS marketing videos.",
@@ -43,34 +50,35 @@
         "type": "AI Promo",
         "duration": "00:45",
         "result": "Avatar scene flow, captions, voice sync, and futuristic motion style",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "0QXDnmpVLnA",
         "thumbnail": "/thumbnails/day 2 x.png"
-      },
-      {
-        "title": "Faceless AI Reel",
-        "type": "Short Form",
-        "duration": "00:32",
-        "result": "Script pacing, stock visuals, AI voiceover, and retention captions",
-        "youtubeId": "Z_mxQ1CA-34",
-        "thumbnail": "/thumbnails/day 3 x.png"
-      },
-      {
-        "title": "AI Product Concept",
-        "type": "Concept Video",
-        "duration": "01:10",
-        "result": "Generated visuals, product story, cinematic sound, and clean CTA",
-        "youtubeId": "Z_mxQ1CA-34",
-        "thumbnail": "/thumbnails/day 4 x.png"
       }
     ],
-    "logo-design": [],
+    "logo-design": [
+      {
+        "title": "Logo Animation Reveal",
+        "type": "Logo Video",
+        "duration": "00:24",
+        "result": "Clean logo reveal animation with polished motion, glow, and premium brand presentation",
+        "youtubeId": "m5wsUGvsRXU",
+        "thumbnail": "/thumbnails/logo.png"
+      },
+      {
+        "title": "Brand Logo Motion",
+        "type": "Logo Video",
+        "duration": "00:28",
+        "result": "Animated logo concept with smooth transitions, brand color styling, and modern motion design",
+        "youtubeId": "4lfZ1YWzZ74",
+        "thumbnail": "/thumbnails/Screenshot 2026-06-25 at 3.54.02 PM.png"
+      }
+    ],
     "documentary-video": [
       {
         "title": "Founder Journey Film",
         "type": "Documentary",
         "duration": "06:40",
         "result": "Interview pacing, b-roll structure, emotional arc, and cinematic grade",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "_B1P_19Ed_A",
         "thumbnail": "/thumbnails/day 5 x.png"
       },
       {
@@ -78,7 +86,7 @@
         "type": "Cinematic",
         "duration": "04:12",
         "result": "Montage structure, ambience, transitions, and immersive sound design",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "sC1UckNGXIw",
         "thumbnail": "/thumbnails/day 6 x.png"
       },
       {
@@ -86,8 +94,16 @@
         "type": "Trailer",
         "duration": "01:20",
         "result": "Hook intro, title design, music build, and story-driven pacing",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "SlAej7olTr4",
         "thumbnail": "/thumbnails/day 7 x.png"
+      },
+      {
+        "title": "Documentary Story Edit",
+        "type": "Documentary",
+        "duration": "05:20",
+        "result": "Narrative pacing, cinematic b-roll, sound design, and polished documentary structure",
+        "youtubeId": "Znt7cTjpyfc",
+        "thumbnail": "/thumbnails/day  8 x.png"
       }
     ],
     "reel-video": [
@@ -96,7 +112,7 @@
         "type": "Vertical Reel",
         "duration": "00:38",
         "result": "Hook, captions, beat cuts, zooms, sound effects, and fast pacing",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "buU66xm5j5I",
         "thumbnail": "/thumbnails/day 9 x.png"
       },
       {
@@ -104,7 +120,7 @@
         "type": "Short Ad",
         "duration": "00:24",
         "result": "Product highlights, kinetic text, transition cuts, and CTA ending",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "xlv5LHboTcE",
         "thumbnail": "/thumbnails/day10 x.png"
       },
       {
@@ -112,8 +128,66 @@
         "type": "Creator Reel",
         "duration": "00:51",
         "result": "Jump cuts, captions, b-roll, sound design, and scroll-stopping edit",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "o7lyACClaOE",
         "thumbnail": "/thumbnails/day11 x.png"
+      },
+      {
+        "title": "Sales Hook Reel",
+        "type": "Short Form",
+        "duration": "00:34",
+        "result": "Strong opening hook, quick pacing, captions, and social-ready visual rhythm",
+        "youtubeId": "WLtCQUX1hjU",
+        "thumbnail": "/thumbnails/day 10 instagram.png"
+      },
+      {
+        "title": "Brand Awareness Reel",
+        "type": "Vertical Reel",
+        "duration": "00:29",
+        "result": "Clean brand message, punchy cuts, animated text, and retention-focused structure",
+        "youtubeId": "lHA-DtrDiXI",
+        "thumbnail": "/thumbnails/day 12 instagram.png"
+      },
+      {
+        "title": "Storytelling Reel",
+        "type": "Creator Reel",
+        "duration": "00:45",
+        "result": "Narrative flow, b-roll rhythm, captions, and polished short-form storytelling",
+        "youtubeId": "yLLaQ4LjY7w",
+        "thumbnail": "/thumbnails/day 14 instagram.png"
+      },
+      {
+        "title": "Business Reel Edit",
+        "type": "Short Ad",
+        "duration": "00:32",
+        "result": "Business-focused hook, fast transitions, clear captions, and conversion pacing",
+        "youtubeId": "iXR5c54FnbI",
+        "thumbnail": "/thumbnails/day 16 instagram.png"
+      },
+      {
+        "title": "Social Proof Reel",
+        "type": "Vertical Reel",
+        "duration": "00:36",
+        "result": "Testimonial-style pacing, emphasis cuts, clean captions, and polished delivery",
+        "youtubeId": "46pjXVL7sis",
+        "thumbnail": "/thumbnails/day 17 x.png"
+      },
+      {
+        "title": "High Retention Reel",
+        "type": "Short Form",
+        "duration": "00:31",
+        "result": "Fast hook, pattern interrupts, kinetic captions, and scroll-stopping motion",
+        "youtubeId": "PLNJFqIoUOs",
+        "thumbnail": "/thumbnails/day 18 x.png"
+      }
+    ],
+    "google-ads-video": [
+      {
+        "title": "Google Ads Promo",
+        "type": "Google Ads",
+        "duration": "00:45",
+        "result": "Conversion-focused ad edit with product messaging, captions, strong hook, and clear CTA",
+        "youtubeId": "MPgjRi13Rvw",
+        "thumbnail": "/thumbnails/adf.png"
       }
     ],
     "saas-video": [
@@ -122,7 +196,7 @@
         "type": "Product Demo",
         "duration": "01:15",
         "result": "Screen flow, feature highlights, cursor movement, captions, and CTA",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "SxGSL4NNJYk",
         "thumbnail": "/thumbnails/day12 x.png"
       },
       {
@@ -130,7 +204,7 @@
         "type": "Explainer",
         "duration": "01:35",
         "result": "Problem-solution structure, UI callouts, motion graphics, and clean narration",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "2MjTWzqGmzE",
         "thumbnail": "/thumbnails/day13 x.png"
       },
       {
@@ -138,49 +212,20 @@
         "type": "Launch Video",
         "duration": "00:55",
         "result": "Fast feature montage, benefit-led copy, transitions, and conversion-focused ending",
-        "youtubeId": "Z_mxQ1CA-34",
+        "youtubeId": "-xNZXIfntZ8",
         "thumbnail": "/thumbnails/day14 x.png"
+      },
+      {
+        "title": "SaaS Feature Walkthrough",
+        "type": "Product Video",
+        "duration": "01:05",
+        "result": "Feature walkthrough, benefit-focused scenes, UI motion, and polished SaaS storytelling",
+        "youtubeId": "qs_TmkLUaMI",
+        "thumbnail": "/thumbnails/day15 x.png"
       }
     ]
   },
   "logoGallery": {
-    "logo-design": [
-      {
-        "title": "Minimal Brand Mark",
-        "style": "Minimal",
-        "description": "Clean symbol-based logo concept for modern creators and startups.",
-        "initials": "MB"
-      },
-      {
-        "title": "Creator Channel Logo",
-        "style": "Creator Brand",
-        "description": "Bold social avatar logo with strong contrast and memorable initials.",
-        "initials": "CC"
-      },
-      {
-        "title": "SaaS Product Logo",
-        "style": "Tech",
-        "description": "Sharp product logo direction for SaaS dashboards and landing pages.",
-        "initials": "SP"
-      },
-      {
-        "title": "Luxury Media Logo",
-        "style": "Premium",
-        "description": "Elegant logo concept with premium spacing, typography, and color balance.",
-        "initials": "LM"
-      },
-      {
-        "title": "AI Studio Logo",
-        "style": "Futuristic",
-        "description": "Futuristic mark made for AI content brands and automation services.",
-        "initials": "AI"
-      },
-      {
-        "title": "Personal Brand Logo",
-        "style": "Signature",
-        "description": "Personal identity logo for freelancers, founders, and video creators.",
-        "initials": "PB"
-      }
-    ]
+    "logo-design": []
   }
 }

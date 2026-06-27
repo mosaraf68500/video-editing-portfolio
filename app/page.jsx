@@ -1,14 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import featuredVideos from "../data/featured-videos.json";
 import servicesData from "../data/services.json";
 import testimonials from "../data/testimonials.json";
 
 const { services } = servicesData;
 const defaultVideoThumbnail = "/thumbnails/video-thumbnail.svg";
+const homepageServiceOrder = [
+  "documentary-video",
+  "reel-video",
+  "saas-video",
+  "google-ads-video",
+  "ai-video",
+  "logo-design",
+];
+const homepageServices = homepageServiceOrder
+  .map((slug) => services.find((service) => service.slug === slug))
+  .filter(Boolean);
+const homepageServiceSpans = {
+  "reel-video": "lg:col-span-2",
+  "saas-video": "lg:col-span-2",
+  "ai-video": "",
+  "logo-design": "lg:col-span-2",
+};
 
 const whatsappMessage =
   "Hello! I saw your portfolio and I would love to discuss a video editing project with you.";
@@ -53,40 +71,40 @@ const benefits = [
 
 const portfolioItems = [
   {
-    title: "Creator Launch Film",
-    category: "Brand Story",
-    youtubeId: "Z_mxQ1CA-34",
-    thumbnail: "/thumbnails/edits that convert.jpg",
+    title: "Founder Journey Film",
+    category: "Documentary Video",
+    youtubeId: "_B1P_19Ed_A",
+    thumbnail: "/thumbnails/day 5 x.png",
   },
   {
-    title: "Fitness Reel Series",
-    category: "Short Form",
-    youtubeId: "Z_mxQ1CA-34",
-    thumbnail: "/thumbnails/day 1 x.png",
+    title: "Fitness Reel With Captions",
+    category: "Reel Video",
+    youtubeId: "buU66xm5j5I",
+    thumbnail: "/thumbnails/day 9 x.png",
   },
   {
-    title: "Tech Review Episode",
-    category: "YouTube Edit",
-    youtubeId: "Z_mxQ1CA-34",
-    thumbnail: "/thumbnails/nokia.png",
+    title: "SaaS Product Demo",
+    category: "SaaS Video",
+    youtubeId: "SxGSL4NNJYk",
+    thumbnail: "/thumbnails/day12 x.png",
   },
   {
-    title: "Brand Story Video",
-    category: "Commercial",
-    youtubeId: "Z_mxQ1CA-34",
-    thumbnail: "/thumbnails/$4 TRILLION.jpg",
-  },
-  {
-    title: "Wedding Highlight",
-    category: "Cinematic",
-    youtubeId: "Z_mxQ1CA-34",
-    thumbnail: "/thumbnails/wedding card.jpg",
-  },
-  {
-    title: "Product Promo Cut",
-    category: "Ad Edit",
-    youtubeId: "Z_mxQ1CA-34",
+    title: "Google Ads Promo",
+    category: "Google Ads Video",
+    youtubeId: "MPgjRi13Rvw",
     thumbnail: "/thumbnails/adf.png",
+  },
+  {
+    title: "AI Avatar Promo",
+    category: "AI Video",
+    youtubeId: "0QXDnmpVLnA",
+    thumbnail: "/thumbnails/day 2 x.png",
+  },
+  {
+    title: "Logo Animation Reveal",
+    category: "Logo Design",
+    youtubeId: "m5wsUGvsRXU",
+    thumbnail: "/thumbnails/logo.png",
   },
 ];
 
@@ -101,33 +119,39 @@ const skillBars = [
 const faqItems = [
   {
     icon: "01",
-    question: "Why should we choose your video editing services?",
+    question: "What Types of Videos Do You Edit?",
     answer:
-      "You get clean pacing, strong hooks, polished sound, brand-matched visuals, and a professional workflow built around retention.",
+      "I edit YouTube videos, reels, documentaries, SaaS/product videos, ads, podcasts, short-form content, and brand storytelling videos with clean pacing and polished visuals.",
   },
   {
     icon: "02",
-    question: "How can I subscribe for long-term video editing services?",
+    question: "How Many Revisions Are Included?",
     answer:
-      "Send your monthly content needs through the contact form or WhatsApp, and I will suggest a recurring editing package.",
+      "Every project includes revisions based on the package and scope. I make sure the final video matches your style, message, and platform goals before delivery.",
   },
   {
     icon: "03",
-    question: "How long does the video editing process take?",
+    question: "What Is Your Average Delivery Time?",
     answer:
-      "Short-form edits usually take 24-48 hours. Long-form videos depend on length, footage volume, and revision needs.",
+      "Short-form reels usually take 24-48 hours. Long-form videos, documentaries, and detailed edits depend on footage length, complexity, and the amount of motion graphics needed.",
   },
   {
     icon: "04",
-    question: "Which package is best for me?",
+    question: "Do You Offer Long-Term Collaboration Packages?",
     answer:
-      "The best package depends on your platform, video length, posting frequency, and whether you need captions, motion graphics, or color polish.",
+      "Yes. I offer long-term editing support for creators, agencies, and brands that need consistent weekly or monthly content with a reliable workflow.",
   },
   {
     icon: "05",
-    question: "How can I send big files to you?",
+    question: "What Is Your Average Delivery Time?",
     answer:
-      "You can share footage through Google Drive, Dropbox, WeTransfer, or any cloud link with clear project instructions.",
+      "For urgent projects, I can offer faster delivery depending on availability. Share your deadline first, and I will confirm the best timeline before starting.",
+  },
+  {
+    icon: "06",
+    question: "Can You Edit Videos for YouTube, Reels, and Documentaries?",
+    answer:
+      "Yes. I can edit platform-ready YouTube videos, high-retention reels, and story-driven documentaries with proper structure, sound design, color, captions, and motion graphics.",
   },
 ];
 
@@ -205,7 +229,16 @@ function SocialIcon({ type }) {
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(null);
+  const [selectedFeaturedVideo, setSelectedFeaturedVideo] = useState(null);
+  const [previewFeaturedVideo, setPreviewFeaturedVideo] = useState(null);
   const [selectedPortfolioVideo, setSelectedPortfolioVideo] = useState(null);
+  const [previewPortfolioVideo, setPreviewPortfolioVideo] = useState(null);
+  const [animatedSkills, setAnimatedSkills] = useState(() =>
+    Object.fromEntries(skillBars.map((skill) => [skill.label, 0]))
+  );
+  const aboutSectionRef = useRef(null);
+  const isSkillSectionActive = useRef(false);
+  const skillAnimationFrame = useRef(null);
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -213,6 +246,104 @@ export default function Home() {
     message: "",
   });
   const [status, setStatus] = useState({ type: "idle", message: "" });
+
+  useEffect(() => {
+    const revealElements = document.querySelectorAll("[data-reveal]");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          } else {
+            entry.target.classList.remove("is-visible");
+          }
+        });
+      },
+      { threshold: 0.16 }
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (!event.target.closest("[data-video-card]")) {
+        setPreviewFeaturedVideo(null);
+        setPreviewPortfolioVideo(null);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
+
+  useEffect(() => {
+    const aboutSection = aboutSectionRef.current;
+
+    if (!aboutSection) {
+      return undefined;
+    }
+
+    function resetSkills() {
+      if (skillAnimationFrame.current) {
+        cancelAnimationFrame(skillAnimationFrame.current);
+      }
+
+      setAnimatedSkills(
+        Object.fromEntries(skillBars.map((skill) => [skill.label, 0]))
+      );
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          isSkillSectionActive.current = false;
+          resetSkills();
+          return;
+        }
+
+        if (isSkillSectionActive.current) {
+          return;
+        }
+
+        isSkillSectionActive.current = true;
+        const duration = 3000;
+        const startTime = performance.now();
+
+        function animateSkills(currentTime) {
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+
+          setAnimatedSkills(
+            Object.fromEntries(
+              skillBars.map((skill) => [
+                skill.label,
+                Math.round(skill.value * progress),
+              ])
+            )
+          );
+
+          if (progress < 1) {
+            skillAnimationFrame.current = requestAnimationFrame(animateSkills);
+          }
+        }
+
+        skillAnimationFrame.current = requestAnimationFrame(animateSkills);
+      },
+      { threshold: 0.55 }
+    );
+
+    observer.observe(aboutSection);
+
+    return () => {
+      observer.disconnect();
+
+      resetSkills();
+    };
+  }, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -290,7 +421,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <section id="home" className="relative pt-28 sm:pt-36">
+      <section id="home" data-reveal className="relative pt-28 sm:pt-36">
         <div className="absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-violet-700/25 blur-3xl" />
         <div className="section-shell relative grid min-h-[calc(100vh-5rem)] items-center gap-14 pb-20 pt-8 lg:grid-cols-[1.04fr_0.96fr]">
           <div>
@@ -324,24 +455,151 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[520px] lg:max-w-none">
-            <div className="absolute -inset-5 rounded-[2rem] bg-violet-600/35 blur-2xl" />
+          <div className="group relative mx-auto w-full max-w-[520px] lg:max-w-none">
+            <div className="absolute -inset-5 rounded-[2rem] bg-violet-600/35 opacity-45 blur-2xl transition duration-500 group-hover:opacity-100 group-active:opacity-100" />
             <div className="purple-glow relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-violet-400/18 bg-black">
               <Image
                 src="/mypic.png"
                 alt="Sahadat Media banner"
                 fill
-                className="object-cover object-center"
+                className="scale-105 object-cover object-center transition duration-700 ease-out group-hover:scale-100 group-hover:-rotate-1 group-hover:brightness-110 group-active:scale-100 group-active:-rotate-1 group-active:brightness-110"
                 priority
                 sizes="(min-width: 1024px) 48vw, 100vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-black/35 transition duration-500 group-hover:bg-black/5 group-active:bg-black/5" />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="services" className="border-t border-violet-500/5 py-24">
+      <section id="testimonials" data-reveal className="border-t border-violet-500/5 py-12">
+        <div className="mx-auto mb-8 max-w-3xl px-4 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.28em] text-violet-300">
+            Customer Reviews
+          </p>
+          <h2 className="text-2xl font-black tracking-tight text-white sm:text-4xl">
+            Clients trust the cut and the delivery.
+          </h2>
+        </div>
+        <div className="overflow-hidden">
+          <div className="testimonial-track flex w-max gap-4 px-4">
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <article
+                key={`${testimonial.name}-${index}`}
+                className="glass-card w-[300px] rounded-[1.5rem] p-5 sm:w-[380px]"
+              >
+                <Rating value={testimonial.rating} />
+                <p className="mt-4 text-base leading-7 text-slate-200">
+                  &quot;{testimonial.quote}&quot;
+                </p>
+                <div className="mt-5 flex items-center gap-3">
+                  <Image
+                    src={testimonial.image}
+                    alt={`${testimonial.name} avatar`}
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 rounded-full border border-violet-300/25 object-cover shadow-[0_0_22px_rgba(138,31,255,0.35)]"
+                  />
+                  <div>
+                    <h3 className="font-black text-white">{testimonial.name}</h3>
+                    <p className="text-sm text-slate-400">{testimonial.role}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section data-reveal className="border-t border-violet-500/5 py-16">
+        <div className="section-shell">
+          <div className="mx-auto mb-9 max-w-4xl text-center">
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.28em] text-violet-300">
+              Latest Masterpiece
+            </p>
+            <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl">
+              Watch my <span className="gradient-text">featured edit</span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-3xl leading-8 text-slate-300">
+              A highlighted video project with cinematic pacing, polished visuals,
+              and story-driven editing.
+            </p>
+          </div>
+
+          <article
+            data-video-card
+            role="button"
+            tabIndex={0}
+            onMouseEnter={() => setPreviewFeaturedVideo(featuredVideos[0].title)}
+            onMouseLeave={() => setPreviewFeaturedVideo(null)}
+            onTouchStart={(event) => {
+              if (previewFeaturedVideo !== featuredVideos[0].title) {
+                event.preventDefault();
+                setPreviewFeaturedVideo(featuredVideos[0].title);
+              }
+            }}
+            onClick={() => {
+              setPreviewFeaturedVideo(null);
+              setSelectedFeaturedVideo(featuredVideos[0]);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                setPreviewFeaturedVideo(null);
+                setSelectedFeaturedVideo(featuredVideos[0]);
+              }
+            }}
+            className="brand-card group mx-auto max-w-5xl cursor-pointer overflow-hidden rounded-[2rem]"
+            aria-label={`Open ${featuredVideos[0].title} fullscreen`}
+          >
+            <div className="relative aspect-video overflow-hidden bg-black">
+              <Image
+                src={featuredVideos[0].thumbnail || defaultVideoThumbnail}
+                alt={`${featuredVideos[0].title} thumbnail`}
+                fill
+                className="object-cover transition duration-500 group-hover:scale-105"
+                sizes="(min-width: 1024px) 1000px, 100vw"
+              />
+              {previewFeaturedVideo === featuredVideos[0].title ? (
+                <iframe
+                  className="pointer-events-none absolute inset-0 h-full w-full"
+                  src={`https://www.youtube.com/embed/${featuredVideos[0].youtubeId}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${featuredVideos[0].youtubeId}&rel=0`}
+                  title={`${featuredVideos[0].title} preview`}
+                  allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                />
+              ) : null}
+              <div className="absolute inset-0 bg-black/35 transition duration-300 group-hover:bg-black/20" />
+              <div className="absolute left-5 top-5 rounded-full bg-black/55 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-200 backdrop-blur">
+                {featuredVideos[0].category}
+              </div>
+              <div className="absolute right-5 top-5 rounded-full bg-white/10 px-4 py-2 text-xs font-black text-white backdrop-blur">
+                {featuredVideos[0].duration}
+              </div>
+              <div className="absolute inset-0 grid place-items-center">
+                <span className="grid h-20 w-20 place-items-center rounded-full text-white drop-shadow-[0_0_24px_rgba(138,31,255,0.95)] transition group-hover:scale-110">
+                  <span className="ml-1 h-0 w-0 border-y-[14px] border-l-[22px] border-y-transparent border-l-white" />
+                </span>
+              </div>
+              <div className="absolute inset-x-6 bottom-6">
+                <h3 className="max-w-2xl text-2xl font-black text-white sm:text-4xl">
+                  {featuredVideos[0].title}
+                </h3>
+              </div>
+            </div>
+          </article>
+
+          <div className="mt-8 text-center">
+            <Link
+              href="/featured-films"
+              className="purple-button inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 font-black text-white transition hover:-translate-y-1"
+            >
+              See More <ArrowIcon />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" data-reveal className="border-t border-violet-500/5 py-24">
         <div className="section-shell">
           <SectionHeading
             eyebrow=""
@@ -352,20 +610,29 @@ export default function Home() {
             }
             copy="Specialized editing solutions tailored to your content needs."
           />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {homepageServices.map((service) => (
               <Link
                 key={service.title}
                 href={`/services/${service.slug}`}
-                className={`glass-card group min-h-44 rounded-2xl p-8 text-left transition hover:-translate-y-1 hover:border-violet-400/35 hover:shadow-[0_0_44px_rgba(147,51,234,0.2)] ${service.span}`}
+                className={`glass-card group min-h-36 rounded-2xl p-5 text-left transition hover:-translate-y-1 hover:border-violet-400/35 hover:shadow-[0_0_44px_rgba(147,51,234,0.2)] sm:p-6 ${
+                  homepageServiceSpans[service.slug] ?? service.span
+                }`}
               >
-                <div className="mb-6 grid h-14 w-14 place-items-center rounded-xl bg-violet-700/55 text-xs font-black text-violet-100 shadow-[0_0_28px_rgba(147,51,234,0.4)]">
-                  {service.icon}
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-violet-700/55 text-[0.65rem] font-black text-violet-100 shadow-[0_0_28px_rgba(147,51,234,0.4)]">
+                    {service.icon}
+                  </div>
+                  <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/5 text-violet-200 transition group-hover:bg-[#8A1FFF] group-hover:text-white">
+                    <ArrowIcon />
+                  </span>
                 </div>
-                <h3 className="text-xl font-black text-white">{service.title}</h3>
-                <p className="mt-4 max-w-xl leading-7 text-slate-400">{service.copy}</p>
-                <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-violet-300">
-                  Open {service.title} Page <ArrowIcon />
+                <h3 className="text-lg font-black text-white sm:text-xl">{service.title}</h3>
+                <p className="mt-3 line-clamp-2 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">
+                  {service.copy}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-violet-300">
+                  View Work
                 </span>
               </Link>
             ))}
@@ -373,7 +640,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-violet-500/5 py-24">
+      <section data-reveal className="border-t border-violet-500/5 py-24">
         <div className="section-shell">
           <SectionHeading
             eyebrow=""
@@ -402,7 +669,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="portfolio" className="py-24">
+      <section id="portfolio" data-reveal className="py-24">
         <div className="section-shell">
           <SectionHeading
             eyebrow="Portfolio"
@@ -413,11 +680,24 @@ export default function Home() {
             {portfolioItems.map((item, index) => (
               <article
                 key={item.title}
+                data-video-card
                 role="button"
                 tabIndex={0}
-                onClick={() => setSelectedPortfolioVideo(item)}
+                onMouseEnter={() => setPreviewPortfolioVideo(item.title)}
+                onMouseLeave={() => setPreviewPortfolioVideo(null)}
+                onTouchStart={(event) => {
+                  if (previewPortfolioVideo !== item.title) {
+                    event.preventDefault();
+                    setPreviewPortfolioVideo(item.title);
+                  }
+                }}
+                onClick={() => {
+                  setPreviewPortfolioVideo(null);
+                  setSelectedPortfolioVideo(item);
+                }}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") {
+                    setPreviewPortfolioVideo(null);
                     setSelectedPortfolioVideo(item);
                   }
                 }}
@@ -431,13 +711,21 @@ export default function Home() {
                     className="object-cover transition duration-300 group-hover:scale-105"
                     sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   />
+                  {previewPortfolioVideo === item.title ? (
+                    <iframe
+                      className="pointer-events-none absolute inset-0 h-full w-full"
+                      src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${item.youtubeId}&rel=0`}
+                      title={`${item.title} preview`}
+                      allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                    />
+                  ) : null}
                   <div className="absolute inset-0 bg-black/25" />
                   <div className="absolute left-5 top-5 rounded-full bg-black/45 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-violet-200 backdrop-blur">
                     {item.category}
                   </div>
-                  <div className="absolute inset-0 grid place-items-center">
-                    <span className="grid h-16 w-16 place-items-center rounded-full bg-white text-slate-950 shadow-[0_0_38px_rgba(138,31,255,0.7)] transition group-hover:scale-110">
-                      <span className="ml-1 h-0 w-0 border-y-[8px] border-l-[13px] border-y-transparent border-l-slate-950" />
+                  <div className="absolute inset-0 grid place-items-center transition duration-300 group-hover:opacity-0">
+                    <span className="grid h-16 w-16 place-items-center rounded-full text-white drop-shadow-[0_0_18px_rgba(138,31,255,0.95)] transition group-hover:scale-110">
+                      <span className="ml-1 h-0 w-0 border-y-[8px] border-l-[13px] border-y-transparent border-l-white" />
                     </span>
                   </div>
                 </div>
@@ -450,46 +738,23 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section id="testimonials" className="py-24">
-        <SectionHeading
-          eyebrow="Customer Reviews"
-          title="Clients trust the cut, the process, and the delivery."
-          copy="The carousel runs automatically from right to left and pauses on hover for easy reading."
-        />
-        <div className="overflow-hidden">
-          <div className="testimonial-track flex w-max gap-5 px-4">
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
-              <article
-                key={`${testimonial.name}-${index}`}
-                className="glass-card w-[320px] rounded-[2rem] p-7 sm:w-[420px]"
-              >
-                <Rating value={testimonial.rating} />
-                <p className="mt-6 text-lg leading-8 text-slate-200">
-                  &quot;{testimonial.quote}&quot;
-                </p>
-                <div className="mt-8 flex items-center gap-4">
-                  <Image
-                    src={testimonial.image}
-                    alt={`${testimonial.name} avatar`}
-                    width={56}
-                    height={56}
-                    className="h-14 w-14 rounded-full border border-violet-300/25 object-cover shadow-[0_0_22px_rgba(138,31,255,0.35)]"
-                  />
-                  <div>
-                    <h3 className="font-black text-white">{testimonial.name}</h3>
-                    <p className="text-sm text-slate-400">{testimonial.role}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="mt-10 text-center">
+            <Link
+              href="/portfolio"
+              className="purple-button inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 font-black text-white transition hover:-translate-y-1"
+            >
+              See More <ArrowIcon />
+            </Link>
           </div>
         </div>
       </section>
 
-      <section id="about" className="border-t border-violet-500/5 py-24">
+      <section
+        id="about"
+        ref={aboutSectionRef}
+        data-reveal
+        className="border-t border-violet-500/5 py-24"
+      >
         <div className="section-shell grid items-center gap-16 lg:grid-cols-[1fr_0.9fr]">
           <div>
             <h2 className="text-4xl font-black tracking-tight text-white sm:text-5xl">
@@ -506,12 +771,14 @@ export default function Home() {
                 <div key={skill.label}>
                   <div className="mb-2 flex items-center justify-between text-sm font-black text-white">
                     <span>{skill.label}</span>
-                    <span className="text-violet-300">{skill.value}%</span>
+                    <span className="text-violet-300">
+                      {animatedSkills[skill.label] ?? 0}%
+                    </span>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-violet-950/70">
                     <div
                       className="h-full rounded-full bg-gradient-to-r from-violet-700 via-purple-400 to-fuchsia-400 shadow-[0_0_18px_rgba(168,85,247,0.85)]"
-                      style={{ width: `${skill.value}%` }}
+                      style={{ width: `${animatedSkills[skill.label] ?? 0}%` }}
                     />
                   </div>
                 </div>
@@ -519,24 +786,25 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[430px]">
-            <div className="absolute inset-0 rounded-full bg-violet-700/25 blur-3xl" />
+          <div className="group relative mx-auto w-full max-w-[430px]">
+            <div className="absolute inset-0 rounded-full bg-violet-700/25 opacity-45 blur-3xl transition duration-500 group-hover:opacity-100 group-active:opacity-100" />
             <div className="purple-glow relative aspect-square overflow-hidden rounded-full border border-violet-400/14 bg-black p-5">
               <div className="relative h-full overflow-hidden rounded-full">
                 <Image
                   src="/mypic.png"
                   alt="Sahadat Media about"
                   fill
-                  className="object-cover object-center"
+                  className="scale-105 object-cover object-center transition duration-700 ease-out group-hover:scale-100 group-hover:rotate-2 group-hover:brightness-110 group-active:scale-100 group-active:rotate-2 group-active:brightness-110"
                   sizes="(min-width: 1024px) 430px, 90vw"
                 />
+                <div className="absolute inset-0 bg-black/35 transition duration-500 group-hover:bg-black/5 group-active:bg-black/5" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="faq" className="border-t border-violet-500/5 py-24">
+      <section id="faq" data-reveal className="border-t border-violet-500/5 py-24">
         <div className="section-shell">
           <div className="mx-auto mb-12 max-w-5xl text-center">
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-violet-300">
@@ -556,10 +824,10 @@ export default function Home() {
             {faqItems.map((item, index) => (
               <article
                 key={item.question}
-                className={`rounded-2xl border bg-[#08091b]/80 px-5 py-4 shadow-[0_18px_50px_rgba(0,0,0,0.25)] transition ${
+                className={`brand-card rounded-2xl px-5 py-4 transition hover:-translate-y-1 ${
                   openFaq === index
-                    ? "border-[#8A1FFF]/80 bg-[#120b2a]"
-                    : "border-white/10 hover:border-[#8A1FFF]/45"
+                    ? "border-[#8A1FFF]/80"
+                    : "hover:border-[#8A1FFF]/75"
                 }`}
               >
                 <button
@@ -589,7 +857,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="py-24">
+      <section id="contact" data-reveal className="py-24">
         <div className="section-shell grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-violet-300">
@@ -691,7 +959,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="py-12">
+      <footer data-reveal className="py-12">
         <div className="section-shell">
           <div className="rounded-[2rem] bg-[#08091b] p-7 sm:p-8">
             <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
@@ -753,6 +1021,34 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {selectedFeaturedVideo ? (
+        <div className="fixed inset-0 z-[90] bg-black">
+          <button
+            type="button"
+            onClick={() => setSelectedFeaturedVideo(null)}
+            className="absolute right-5 top-5 z-10 grid h-12 w-12 place-items-center rounded-full border border-[#8A1FFF]/40 bg-black/70 text-2xl font-black text-white transition hover:bg-[#8A1FFF]"
+            aria-label="Close featured video"
+          >
+            x
+          </button>
+          <div className="absolute left-5 top-5 z-10 rounded-2xl border border-[#8A1FFF]/30 bg-black/60 px-5 py-4 backdrop-blur">
+            <p className="text-xs font-black uppercase tracking-[0.24em] text-violet-300">
+              {selectedFeaturedVideo.category}
+            </p>
+            <h2 className="mt-1 text-lg font-black text-white sm:text-2xl">
+              {selectedFeaturedVideo.title}
+            </h2>
+          </div>
+          <iframe
+            className="h-screen w-screen"
+            src={`https://www.youtube.com/embed/${selectedFeaturedVideo.youtubeId}?autoplay=1&rel=0`}
+            title={selectedFeaturedVideo.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+      ) : null}
 
       {selectedPortfolioVideo ? (
         <div className="fixed inset-0 z-[90] bg-black">
