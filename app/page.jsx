@@ -1,5 +1,6 @@
 "use client";
 
+import emailjs from "@emailjs/browser";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -33,6 +34,11 @@ const whatsappMessage =
 const whatsappLink = `https://wa.me/8801601222918?text=${encodeURIComponent(
   whatsappMessage
 )}`;
+const emailJsConfig = {
+  serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+  templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+  publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+};
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -354,16 +360,27 @@ export default function Home() {
     setStatus({ type: "loading", message: "Sending your message..." });
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Unable to send message.");
+      if (
+        !emailJsConfig.serviceId ||
+        !emailJsConfig.templateId ||
+        !emailJsConfig.publicKey
+      ) {
+        throw new Error("EmailJS is not configured yet.");
       }
+
+      await emailjs.send(
+        emailJsConfig.serviceId,
+        emailJsConfig.templateId,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          reply_to: form.email,
+          message: form.message,
+        },
+        {
+          publicKey: emailJsConfig.publicKey,
+        }
+      );
 
       setForm({ name: "", email: "", message: "" });
       setStatus({
