@@ -241,7 +241,6 @@ export default function Home() {
   const skillAnimationFrame = useRef(null);
   const [form, setForm] = useState({
     name: "",
-    phone: "",
     email: "",
     message: "",
   });
@@ -366,7 +365,7 @@ export default function Home() {
         throw new Error(data.error || "Unable to send message.");
       }
 
-      setForm({ name: "", phone: "", email: "", message: "" });
+      setForm({ name: "", email: "", message: "" });
       setStatus({
         type: "success",
         message: "Message sent. I will get back to you shortly.",
@@ -885,32 +884,17 @@ export default function Home() {
             onSubmit={handleSubmit}
             className="glass-card rounded-[2.2rem] p-6 sm:p-8"
           >
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold text-slate-200">Name</span>
-                <input
-                  required
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  className="w-full rounded-2xl border border-violet-500/12 bg-white/5 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-violet-300"
-                />
-              </label>
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold text-slate-200">
-                  Phone Number
-                </span>
-                <input
-                  required
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  placeholder="+1 234 567 890"
-                  className="w-full rounded-2xl border border-violet-500/12 bg-white/5 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-violet-300"
-                />
-              </label>
-            </div>
+            <label className="block">
+              <span className="mb-2 block text-sm font-bold text-slate-200">Name</span>
+              <input
+                required
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Your name"
+                className="w-full rounded-2xl border border-violet-500/12 bg-white/5 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-violet-300"
+              />
+            </label>
             <label className="mt-5 block">
               <span className="mb-2 block text-sm font-bold text-slate-200">Email</span>
               <input

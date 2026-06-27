@@ -13,11 +13,10 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const name = body.name?.trim();
-    const phone = body.phone?.trim();
     const email = body.email?.trim();
     const message = body.message?.trim();
 
-    if (!name || !phone || !email || !message) {
+    if (!name || !email || !message) {
       return Response.json(
         { error: "Please fill in all required fields." },
         { status: 400 }
@@ -32,7 +31,6 @@ export async function POST(request) {
     }
 
     const safeName = escapeHtml(name);
-    const safePhone = escapeHtml(phone);
     const safeEmail = escapeHtml(email);
     const safeMessage = escapeHtml(message);
 
@@ -58,7 +56,6 @@ export async function POST(request) {
             </div>
             <div style="padding: 28px; color: #1f2937;">
               <p><strong>Name:</strong> ${safeName}</p>
-              <p><strong>Phone:</strong> ${safePhone}</p>
               <p><strong>Email:</strong> ${safeEmail}</p>
               <div style="margin-top: 22px;">
                 <strong>Message:</strong>
