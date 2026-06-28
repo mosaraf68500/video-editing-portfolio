@@ -43,9 +43,10 @@ function VideoCard({ onPlay, onPreviewEnd, onPreviewStart, previewVideo, video }
           onPlay(video);
         }
       }}
-      className="brand-card cursor-pointer overflow-hidden rounded-2xl"
+      className="brand-card cursor-pointer overflow-hidden rounded-2xl p-[1px]"
       aria-label={`Open ${video.title} fullscreen`}
     >
+      <div className="overflow-hidden rounded-[calc(1rem-1px)] bg-[#08091b]">
       <div className="group relative block aspect-video w-full overflow-hidden bg-black text-left">
         <Image
           src={video.thumbnail || defaultVideoThumbnail}
@@ -81,6 +82,7 @@ function VideoCard({ onPlay, onPreviewEnd, onPreviewStart, previewVideo, video }
       <div className="p-6">
         <h3 className="text-xl font-black text-white">{video.title}</h3>
         <p className="mt-3 leading-7 text-slate-400">{video.result}</p>
+      </div>
       </div>
     </article>
   );
