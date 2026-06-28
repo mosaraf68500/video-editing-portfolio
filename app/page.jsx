@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 import featuredVideos from "../data/featured-videos.json";
 import servicesData from "../data/services.json";
@@ -15,18 +16,19 @@ const homepageServiceOrder = [
   "documentary-video",
   "reel-video",
   "saas-video",
-  "google-ads-video",
   "ai-video",
   "logo-design",
 ];
 const homepageServices = homepageServiceOrder
   .map((slug) => services.find((service) => service.slug === slug))
   .filter(Boolean);
-const homepageServiceSpans = {
-  "reel-video": "lg:col-span-2",
-  "saas-video": "lg:col-span-2",
-  "ai-video": "",
-  "logo-design": "lg:col-span-2",
+const homepageServiceVisuals = {
+  "documentary-video": "/service/documentary.png",
+  "reel-video": "/service/reel.png",
+  "saas-video": "/service/saas.png",
+  "google-ads-video": "/thumbnails/adf.png",
+  "ai-video": "/service/ai.png",
+  "logo-design": "/service/logo intro video.png",
 };
 
 const whatsappMessage =
@@ -198,12 +200,37 @@ function Rating({ value = 5 }) {
   return (
     <div
       aria-label={`${value} out of 5 rating`}
-      className="flex items-center gap-1 text-xl text-[#FFD166] drop-shadow-[0_0_12px_rgba(255,209,102,0.75)]"
+      className="flex items-center gap-0.5 text-base drop-shadow-[0_0_10px_rgba(255,209,102,0.55)]"
     >
-      {Array.from({ length: value }).map((_, index) => (
-        <span key={index}>★</span>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <span
+          key={index}
+          className={index < value ? "text-[#FFD166]" : "text-slate-600"}
+        >
+          ★
+        </span>
       ))}
     </div>
+  );
+}
+
+function ReviewSourceIcon({ source }) {
+  const label = source?.slice(0, 1) || "?";
+  const sourceStyles = {
+    Fiverr: "bg-emerald-400 text-slate-950",
+    Upwork: "bg-lime-400 text-slate-950",
+    LinkedIn: "bg-sky-500 text-white",
+  };
+
+  return (
+    <span
+      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-xs font-black ${
+        sourceStyles[source] || "bg-violet-500 text-white"
+      }`}
+      aria-hidden="true"
+    >
+      {label}
+    </span>
   );
 }
 
@@ -245,6 +272,12 @@ export default function Home() {
   const aboutSectionRef = useRef(null);
   const isSkillSectionActive = useRef(false);
   const skillAnimationFrame = useRef(null);
+  const testimonialTrackRef = useRef(null);
+  const testimonialDragRef = useRef({
+    isDragging: false,
+    startX: 0,
+    startTranslateX: 0,
+  });
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -355,6 +388,78 @@ export default function Home() {
     setForm((current) => ({ ...current, [name]: value }));
   }
 
+  function getCurrentTranslateX(element) {
+    const transform = window.getComputedStyle(element).transform;
+
+    if (!transform || transform === "none") {
+      return 0;
+    }
+
+    const matrix = new DOMMatrixReadOnly(transform);
+    return matrix.m41;
+  }
+
+  function handleTestimonialPointerDown(event) {
+    const track = testimonialTrackRef.current;
+
+    if (!track) {
+      return;
+    }
+
+    testimonialDragRef.current = {
+      isDragging: true,
+      startX: event.clientX,
+      startTranslateX: getCurrentTranslateX(track),
+    };
+    track.style.animation = "none";
+    track.style.transform = `translateX(${testimonialDragRef.current.startTranslateX}px)`;
+    track.classList.add("is-dragging");
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handleTestimonialPointerMove(event) {
+    const track = testimonialTrackRef.current;
+    const drag = testimonialDragRef.current;
+
+    if (!track || !drag.isDragging) {
+      return;
+    }
+
+    const dragDistance = event.clientX - drag.startX;
+    track.style.transform = `translateX(${drag.startTranslateX + dragDistance}px)`;
+  }
+
+  function handleTestimonialPointerEnd(event) {
+    const track = testimonialTrackRef.current;
+
+    if (!track) {
+      return;
+    }
+
+    testimonialDragRef.current.isDragging = false;
+    track.classList.remove("is-dragging");
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    window.setTimeout(() => {
+      if (!testimonialDragRef.current.isDragging) {
+        track.style.transform = "";
+        track.style.animation = "";
+      }
+    }, 600);
+  }
+
+  function getEmailJsErrorMessage(error) {
+    if (error?.status || error?.text) {
+      return `EmailJS error${error.status ? ` ${error.status}` : ""}: ${
+        error.text || "Unable to send message."
+      }`;
+    }
+
+    return error?.message || "Something went wrong. Please try again.";
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setStatus({ type: "loading", message: "Sending your message..." });
@@ -372,6 +477,8 @@ export default function Home() {
         emailJsConfig.serviceId,
         emailJsConfig.templateId,
         {
+          name: form.name,
+          email: form.email,
           from_name: form.name,
           from_email: form.email,
           reply_to: form.email,
@@ -387,10 +494,27 @@ export default function Home() {
         type: "success",
         message: "Message sent. I will get back to you shortly.",
       });
+      await Swal.fire({
+        title: "Message Sent!",
+        text: "Thank you for reaching out. I will get back to you shortly.",
+        icon: "success",
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#8A1FFF",
+        background: "#08091b",
+        color: "#ffffff",
+      });
     } catch (error) {
+      const errorMessage = getEmailJsErrorMessage(error);
+
       setStatus({
         type: "error",
-        message: error.message || "Something went wrong. Please try again.",
+        message: errorMessage,
+      });
+      console.error("EmailJS send error:", {
+        message: errorMessage,
+        status: error?.status,
+        text: error?.text,
+        error,
       });
     }
   }
@@ -472,8 +596,7 @@ export default function Home() {
           </div>
 
           <div className="group relative mx-auto w-full max-w-[520px] lg:max-w-none">
-            <div className="absolute -inset-5 rounded-[2rem] bg-violet-600/35 opacity-45 blur-2xl transition duration-500 group-hover:opacity-100 group-active:opacity-100" />
-            <div className="purple-glow relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-violet-400/18 bg-black">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-violet-400/18 bg-black">
               <Image
                 src="/mypic.png"
                 alt="Sahadat Media banner"
@@ -482,8 +605,6 @@ export default function Home() {
                 priority
                 sizes="(min-width: 1024px) 48vw, 100vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-              <div className="absolute inset-0 bg-black/35 transition duration-500 group-hover:bg-black/5 group-active:bg-black/5" />
             </div>
           </div>
         </div>
@@ -498,15 +619,30 @@ export default function Home() {
             Clients trust the cut and the delivery.
           </h2>
         </div>
-        <div className="overflow-hidden">
-          <div className="testimonial-track flex w-max gap-4 px-4">
+        <div
+          className="cursor-grab overflow-hidden active:cursor-grabbing"
+          onPointerDown={handleTestimonialPointerDown}
+          onPointerMove={handleTestimonialPointerMove}
+          onPointerUp={handleTestimonialPointerEnd}
+          onPointerCancel={handleTestimonialPointerEnd}
+        >
+          <div
+            ref={testimonialTrackRef}
+            className="testimonial-track flex w-max touch-pan-y select-none gap-4 px-4"
+          >
             {[...testimonials, ...testimonials].map((testimonial, index) => (
               <article
                 key={`${testimonial.name}-${index}`}
                 className="glass-card w-[300px] rounded-[1.5rem] p-5 sm:w-[380px]"
               >
-                <Rating value={testimonial.rating} />
-                <p className="mt-4 text-base leading-7 text-slate-200">
+                <div className="flex items-center justify-between gap-4">
+                  <Rating value={testimonial.rating} />
+                  <div className="flex items-center gap-2 rounded-full bg-white/5 py-1 pl-1 pr-3 text-xs font-black text-slate-200">
+                    <ReviewSourceIcon source={testimonial.source} />
+                    <span>{testimonial.source}</span>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm leading-6 text-slate-300">
                   &quot;{testimonial.quote}&quot;
                 </p>
                 <div className="mt-5 flex items-center gap-3">
@@ -518,8 +654,10 @@ export default function Home() {
                     className="h-12 w-12 rounded-full border border-violet-300/25 object-cover shadow-[0_0_22px_rgba(138,31,255,0.35)]"
                   />
                   <div>
-                    <h3 className="font-black text-white">{testimonial.name}</h3>
-                    <p className="text-sm text-slate-400">{testimonial.role}</p>
+                    <h3 className="text-sm font-black text-white">
+                      {testimonial.name}
+                    </h3>
+                    <p className="text-xs text-slate-400">{testimonial.role}</p>
                   </div>
                 </div>
               </article>
@@ -626,30 +764,39 @@ export default function Home() {
             }
             copy="Specialized editing solutions tailored to your content needs."
           />
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 lg:grid-cols-2">
             {homepageServices.map((service) => (
               <Link
                 key={service.title}
                 href={`/services/${service.slug}`}
-                className={`glass-card group min-h-36 rounded-2xl p-5 text-left transition hover:-translate-y-1 hover:border-violet-400/35 hover:shadow-[0_0_44px_rgba(147,51,234,0.2)] sm:p-6 ${
-                  homepageServiceSpans[service.slug] ?? service.span
-                }`}
+                className="glass-card group relative grid min-h-56 overflow-hidden rounded-2xl text-left transition hover:-translate-y-1 hover:border-violet-400/35 hover:shadow-[0_0_44px_rgba(147,51,234,0.2)] sm:grid-cols-[0.92fr_1fr]"
               >
-                <div className="mb-4 flex items-start justify-between gap-4">
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-violet-700/55 text-[0.65rem] font-black text-violet-100 shadow-[0_0_28px_rgba(147,51,234,0.4)]">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_50%,rgba(138,31,255,0.16),transparent_18rem),linear-gradient(90deg,transparent_0%,rgba(8,9,27,0.25)_42%,rgba(8,9,27,0.96)_63%,rgba(8,9,27,0.98)_100%)]" />
+                <div className="pointer-events-none absolute inset-y-0 left-[34%] z-[1] hidden w-36 bg-gradient-to-r from-transparent via-[#08091b]/70 to-[#08091b] blur-xl sm:block" />
+                <div className="relative min-h-48 overflow-hidden bg-black/20 sm:min-h-full">
+                  <Image
+                    src={homepageServiceVisuals[service.slug] || defaultVideoThumbnail}
+                    alt={`${service.title} service preview`}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                    sizes="(min-width: 1024px) 280px, 100vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-[#08091b]/10 to-[#08091b] sm:to-[#08091b]/85" />
+                  <div className="absolute inset-y-0 right-[-1px] hidden w-24 bg-gradient-to-r from-transparent to-[#08091b] sm:block" />
+                  <div className="absolute left-4 top-4 grid h-12 w-12 place-items-center rounded-xl bg-violet-700/80 text-[0.65rem] font-black text-violet-100 shadow-[0_0_28px_rgba(147,51,234,0.55)]">
                     {service.icon}
                   </div>
-                  <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/5 text-violet-200 transition group-hover:bg-[#8A1FFF] group-hover:text-white">
-                    <ArrowIcon />
+                </div>
+
+                <div className="relative z-[2] flex flex-col justify-center p-6 sm:p-7">
+                  <h3 className="text-2xl font-black text-white">{service.title}</h3>
+                  <p className="mt-4 line-clamp-4 max-w-xl text-sm leading-7 text-slate-400 sm:text-base">
+                    {service.copy}
+                  </p>
+                  <span className="purple-button mt-6 inline-flex w-fit items-center gap-2 rounded-xl px-5 py-3 text-sm font-black text-white transition group-hover:-translate-y-0.5">
+                    Explore {service.title} <ArrowIcon />
                   </span>
                 </div>
-                <h3 className="text-lg font-black text-white sm:text-xl">{service.title}</h3>
-                <p className="mt-3 line-clamp-2 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">
-                  {service.copy}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-violet-300">
-                  View Work
-                </span>
               </Link>
             ))}
           </div>
@@ -803,8 +950,7 @@ export default function Home() {
           </div>
 
           <div className="group relative mx-auto w-full max-w-[430px]">
-            <div className="absolute inset-0 rounded-full bg-violet-700/25 opacity-45 blur-3xl transition duration-500 group-hover:opacity-100 group-active:opacity-100" />
-            <div className="purple-glow relative aspect-square overflow-hidden rounded-full border border-violet-400/14 bg-black p-5">
+            <div className="relative aspect-square overflow-hidden rounded-full border border-violet-400/14 bg-black p-5">
               <div className="relative h-full overflow-hidden rounded-full">
                 <Image
                   src="/mypic.png"
@@ -813,7 +959,6 @@ export default function Home() {
                   className="scale-105 object-cover object-center transition duration-700 ease-out group-hover:scale-100 group-hover:rotate-2 group-hover:brightness-110 group-active:scale-100 group-active:rotate-2 group-active:brightness-110"
                   sizes="(min-width: 1024px) 430px, 90vw"
                 />
-                <div className="absolute inset-0 bg-black/35 transition duration-500 group-hover:bg-black/5 group-active:bg-black/5" />
               </div>
             </div>
           </div>
@@ -839,7 +984,7 @@ export default function Home() {
           <div className="mx-auto grid max-w-4xl gap-4">
             {faqItems.map((item, index) => (
               <article
-                key={item.question}
+                key={`${item.icon}-${item.question}`}
                 className={`brand-card rounded-2xl px-5 py-4 transition hover:-translate-y-1 ${
                   openFaq === index
                     ? "border-[#8A1FFF]/80"
@@ -943,19 +1088,6 @@ export default function Home() {
             >
               {status.type === "loading" ? "Sending..." : "Send Message"}
             </button>
-            {status.message ? (
-              <p
-                className={`mt-4 rounded-2xl px-4 py-3 text-sm font-bold ${
-                  status.type === "success"
-                    ? "bg-emerald-400/10 text-emerald-200"
-                    : status.type === "error"
-                      ? "bg-red-400/10 text-red-200"
-                      : "bg-white/10 text-slate-200"
-                }`}
-              >
-                {status.message}
-              </p>
-            ) : null}
           </form>
         </div>
       </section>

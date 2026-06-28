@@ -17,7 +17,7 @@
     {
       "slug": "documentary-video",
       "title": "Documentary Video",
-      "copy": "Story-driven documentary edits with interview pacing, b-roll structure, emotional music, and cinematic finishing.",
+      "copy": "Professional documentary editing with strong narrative structure, interview refinement, cinematic b-roll, sound design, color grading, and emotional pacing that keeps viewers engaged from beginning to end.",
       "icon": "DOC",
       "span": ""
     },
@@ -38,7 +38,7 @@
     {
       "slug": "saas-video",
       "title": "SaaS Video",
-      "copy": "Product demos, explainer videos, app walkthroughs, launch promos, and conversion-focused SaaS marketing videos.",
+      "copy": "Conversion-focused SaaS videos that simplify complex products through clean UI walkthroughs, feature highlights, motion graphics, benefit-led messaging, and polished product storytelling.",
       "icon": "SaaS",
       "span": "lg:col-span-3"
     }

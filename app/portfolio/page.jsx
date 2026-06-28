@@ -40,9 +40,8 @@ const socialLinks = [
 ];
 
 const portfolioOrder = [
-  "documentary-video",
   "reel-video",
-  "google-ads-video",
+  "documentary-video",
   "saas-video",
   "ai-video",
   "logo-design",
@@ -53,6 +52,7 @@ const videoGroups = servicesData.services
     ...service,
     videos: servicesData.serviceVideoLibrary[service.slug] || [],
   }))
+  .filter((group) => portfolioOrder.includes(group.slug))
   .filter((group) => group.videos.length > 0)
   .sort(
     (first, second) =>

@@ -1,8 +1,10 @@
 "use client";
 
+import emailjs from "@emailjs/browser";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 import featuredVideos from "../../data/featured-videos.json";
 import servicesData from "../../data/services.json";
@@ -15,6 +17,11 @@ const whatsappMessage =
 const whatsappLink = `https://wa.me/8801601222918?text=${encodeURIComponent(
   whatsappMessage
 )}`;
+const emailJsConfig = {
+  serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+  templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+  publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+};
 
 const navLinks = [
   { label: "Home", href: "/#home" },
@@ -131,7 +138,7 @@ function VideoFrame({
         onPreviewEnd?.();
         onActivate(video.title);
       }}
-      className={`group relative block w-full cursor-pointer overflow-hidden bg-black text-left ${
+      className={`brand-card group relative block w-full cursor-pointer overflow-hidden bg-black text-left ${
         compact ? "aspect-[4/5] rounded-xl" : "aspect-video rounded-2xl"
       }`}
       aria-label={`Play ${video.title} inline`}
@@ -198,8 +205,78 @@ export default function FeaturedFilmsPage() {
   useScrollReveal();
 
   const [activeVideo, setActiveVideo] = useState(null);
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [previewVideo, setPreviewVideo] = useState(null);
+  const [status, setStatus] = useState({ type: "idle" });
   const [firstFeatured, secondFeatured] = featuredVideos;
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  }
+
+  function getEmailJsErrorMessage(error) {
+    if (error?.status || error?.text) {
+      return `EmailJS error${error.status ? ` ${error.status}` : ""}: ${
+        error.text || "Unable to send message."
+      }`;
+    }
+
+    return error?.message || "Something went wrong. Please try again.";
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setStatus({ type: "loading" });
+
+    try {
+      if (
+        !emailJsConfig.serviceId ||
+        !emailJsConfig.templateId ||
+        !emailJsConfig.publicKey
+      ) {
+        throw new Error("EmailJS is not configured yet.");
+      }
+
+      await emailjs.send(
+        emailJsConfig.serviceId,
+        emailJsConfig.templateId,
+        {
+          name: form.name,
+          email: form.email,
+          from_name: form.name,
+          from_email: form.email,
+          reply_to: form.email,
+          message: form.message,
+        },
+        {
+          publicKey: emailJsConfig.publicKey,
+        }
+      );
+
+      setForm({ name: "", email: "", message: "" });
+      setStatus({ type: "success" });
+      await Swal.fire({
+        title: "Message Sent!",
+        text: "Thank you for reaching out. I will get back to you shortly.",
+        icon: "success",
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#8A1FFF",
+        background: "#08091b",
+        color: "#ffffff",
+      });
+    } catch (error) {
+      const errorMessage = getEmailJsErrorMessage(error);
+
+      setStatus({ type: "error" });
+      console.error("EmailJS send error:", {
+        message: errorMessage,
+        status: error?.status,
+        text: error?.text,
+        error,
+      });
+    }
+  }
 
   return (
     <main className="min-h-screen overflow-hidden bg-black text-white">
@@ -359,6 +436,80 @@ export default function FeaturedFilmsPage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="contact" data-reveal className="border-t border-violet-500/5 py-24">
+        <div className="section-shell grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+          <div>
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-violet-300">
+              Contact Us
+            </p>
+            <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl">
+              Ready to make your next video impossible to skip?
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-slate-300">
+              Send the project details here or use WhatsApp for a faster
+              conversation. I will reply with availability, timeline, and the
+              best edit plan for your goal.
+            </p>
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noreferrer"
+              className="purple-button mt-8 inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 font-black text-white transition hover:-translate-y-1"
+            >
+              Message on WhatsApp <ArrowIcon />
+            </a>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="glass-card rounded-[2.2rem] p-6 sm:p-8"
+          >
+            <label className="block">
+              <span className="mb-2 block text-sm font-bold text-slate-200">Name</span>
+              <input
+                required
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Your name"
+                className="w-full rounded-2xl border border-violet-500/12 bg-white/5 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-violet-300"
+              />
+            </label>
+            <label className="mt-5 block">
+              <span className="mb-2 block text-sm font-bold text-slate-200">Email</span>
+              <input
+                required
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                className="w-full rounded-2xl border border-violet-500/12 bg-white/5 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-violet-300"
+              />
+            </label>
+            <label className="mt-5 block">
+              <span className="mb-2 block text-sm font-bold text-slate-200">Message</span>
+              <textarea
+                required
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="Tell me about your footage, deadline, and editing style..."
+                rows="6"
+                className="w-full resize-none rounded-2xl border border-violet-500/12 bg-white/5 px-4 py-4 text-white outline-none transition placeholder:text-slate-500"
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={status.type === "loading"}
+              className="purple-button mt-6 w-full rounded-full px-7 py-4 font-black text-white transition hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {status.type === "loading" ? "Sending..." : "Send Message"}
+            </button>
+          </form>
         </div>
       </section>
 

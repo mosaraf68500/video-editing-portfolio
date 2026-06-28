@@ -145,6 +145,10 @@ textarea {
   animation-play-state: paused;
 }
 
+.testimonial-track.is-dragging {
+  transition: none;
+}
+
 @keyframes testimonial-scroll {
   from {
     transform: translateX(0);
