@@ -27,7 +27,6 @@ const homepageServiceVisuals = {
   "documentary-video": "/service/documentary.png",
   "reel-video": "/service/reel.png",
   "saas-video": "/service/saas.png",
-  "google-ads-video": "/thumbnails/adf.png",
   "ai-video": "/service/ai.png",
   "logo-Intro": "/service/logo intro video.png",
 };
@@ -97,12 +96,7 @@ const portfolioItems = [
     youtubeId: "SxGSL4NNJYk",
     thumbnail: "/thumbnails/day12 x.png",
   },
-  {
-    title: "Google Ads Promo",
-    category: "Google Ads Video",
-    youtubeId: "MPgjRi13Rvw",
-    thumbnail: "/thumbnails/adf.png",
-  },
+  
   {
     title: "AI Avatar Promo",
     category: "AI Video",
@@ -121,7 +115,7 @@ const skillBars = [
   { label: "Premiere Pro", value: 95 },
   { label: "After Effects", value: 90 },
   { label: "Photoshop", value: 85 },
-  { label: "Storytelling", value: 95 },
+  { label: "Storytelling", value: 100 },
   { label: "Motion Graphics", value: 88 },
 ];
 

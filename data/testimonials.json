@@ -4,31 +4,31 @@
     "role": "YouTube Creator",
     "quote": "The pacing, captions, and music choices lifted my average watch time immediately.",
     "rating": 5,
-    "source": "Fiverr",
-    "image": "/testimonials/sarah-mitchell.svg"
+    "source": "Facebook",
+    "image": "/testimonials/img1.jpeg"
   },
   {
     "name": "Daniel Brooks",
     "role": "Agency Founder",
     "quote": "Clean communication, polished edits, and delivery ahead of schedule every time.",
     "rating": 4,
-    "source": "Upwork",
-    "image": "/testimonials/daniel-brooks.svg"
+    "source": "Instragram",
+    "image": "/testimonials/img2.jpg"
   },
   {
     "name": "Nina Carter",
     "role": "Brand Manager",
     "quote": "Our campaign videos finally looked premium and matched the energy of our brand.",
-    "rating": 3,
-    "source": "LinkedIn",
-    "image": "/testimonials/nina-carter.svg"
+    "rating": 5,
+    "source": "Facebook",
+    "image": "/testimonials/img4.webp"
   },
   {
     "name": "Omar Rahman",
     "role": "Podcast Host",
     "quote": "The multi-cam cuts and audio cleanup made our long-form episodes feel broadcast ready.",
-    "rating": 5,
-    "source": "Upwork",
-    "image": "/testimonials/omar-rahman.svg"
+    "rating": 4,
+    "source": "Facebook",
+    "image": "/testimonials/img5.jpg"
   }
 ]
