@@ -1,18 +1,23 @@
 {
   "services": [
+
+
+     {
+      "slug": "logo-Intro",
+      "title": "Logo Intro",
+      "copy": "Clean brand marks, logo concepts, animated logo reveals, and visual identity assets for creators and businesses.",
+      "icon": "LOGO",
+      "span": ""
+    },
+    
+   
+
     {
       "slug": "ai-video",
       "title": "AI Video",
       "copy": "AI-powered concept videos, faceless content, avatar-style edits, automation visuals, and modern social content.",
       "icon": "AI",
       "span": "lg:col-span-2"
-    },
-    {
-      "slug": "logo-design",
-      "title": "Logo Design",
-      "copy": "Clean brand marks, logo concepts, animated logo reveals, and visual identity assets for creators and businesses.",
-      "icon": "LOGO",
-      "span": ""
     },
     {
       "slug": "documentary-video",
@@ -54,7 +59,7 @@
         "thumbnail": "/thumbnails/day 2 x.png"
       }
     ],
-    "logo-design": [
+    "logo-Intro": [
       {
         "title": "Logo Animation Reveal",
         "type": "Logo Video",
@@ -107,14 +112,26 @@
       }
     ],
     "reel-video": [
+
+
       {
-        "title": "Fitness Reel With Captions",
-        "type": "Vertical Reel",
-        "duration": "00:38",
-        "result": "Hook, captions, beat cuts, zooms, sound effects, and fast pacing",
-        "youtubeId": "buU66xm5j5I",
-        "thumbnail": "/thumbnails/day 9 x.png"
+        "title": "High Retention Reel",
+        "type": "Short Form",
+        "duration": "00:31",
+        "result": "Fast hook, pattern interrupts, kinetic captions, and scroll-stopping motion",
+        "youtubeId": "PLNJFqIoUOs",
+        "thumbnail": "/thumbnails/day 18 x.png"
       },
+
+      {
+        "title": "Social Proof Reel",
+        "type": "Vertical Reel",
+        "duration": "00:36",
+        "result": "Testimonial-style pacing, emphasis cuts, clean captions, and polished delivery",
+        "youtubeId": "46pjXVL7sis",
+        "thumbnail": "/thumbnails/day 17 x.png"
+      },
+     
       {
         "title": "Product Reel Ad",
         "type": "Short Ad",
@@ -163,22 +180,16 @@
         "youtubeId": "iXR5c54FnbI",
         "thumbnail": "/thumbnails/day 16 instagram.png"
       },
-      {
-        "title": "Social Proof Reel",
+      
+       {
+        "title": "Fitness Reel With Captions",
         "type": "Vertical Reel",
-        "duration": "00:36",
-        "result": "Testimonial-style pacing, emphasis cuts, clean captions, and polished delivery",
-        "youtubeId": "46pjXVL7sis",
-        "thumbnail": "/thumbnails/day 17 x.png"
-      },
-      {
-        "title": "High Retention Reel",
-        "type": "Short Form",
-        "duration": "00:31",
-        "result": "Fast hook, pattern interrupts, kinetic captions, and scroll-stopping motion",
-        "youtubeId": "PLNJFqIoUOs",
-        "thumbnail": "/thumbnails/day 18 x.png"
+        "duration": "00:38",
+        "result": "Hook, captions, beat cuts, zooms, sound effects, and fast pacing",
+        "youtubeId": "buU66xm5j5I",
+        "thumbnail": "/thumbnails/day 9 x.png"
       }
+      
     ],
     "google-ads-video": [
       {

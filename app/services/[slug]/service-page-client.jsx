@@ -76,7 +76,7 @@ function VideoCard({ onPlay, onPreviewEnd, onPreviewStart, previewVideo, video }
           </span>
         </div>
         <div className="absolute inset-x-5 bottom-5">
-          <p className="text-sm font-black text-white">Click to view fullscreen</p>
+         
         </div>
       </div>
       <div className="p-6">

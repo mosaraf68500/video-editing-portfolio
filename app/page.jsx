@@ -16,8 +16,9 @@ const homepageServiceOrder = [
   "documentary-video",
   "reel-video",
   "saas-video",
+   "logo-Intro",
   "ai-video",
-  "logo-design",
+ 
 ];
 const homepageServices = homepageServiceOrder
   .map((slug) => services.find((service) => service.slug === slug))
@@ -28,7 +29,7 @@ const homepageServiceVisuals = {
   "saas-video": "/service/saas.png",
   "google-ads-video": "/thumbnails/adf.png",
   "ai-video": "/service/ai.png",
-  "logo-design": "/service/logo intro video.png",
+  "logo-Intro": "/service/logo intro video.png",
 };
 
 const whatsappMessage =
