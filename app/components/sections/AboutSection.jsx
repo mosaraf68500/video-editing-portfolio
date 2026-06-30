@@ -103,7 +103,7 @@ export default function AboutSection({ skillBars }) {
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-violet-950/70">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-violet-700 via-purple-400 to-fuchsia-400 shadow-[0_0_18px_rgba(168,85,247,0.85)]"
+                    className="h-full rounded-full bg-gradient-to-r from-[#8A1FFF] via-violet-500 to-[#8A1FFF] shadow-[0_0_18px_rgba(138,31,255,0.85)]"
                     style={{ width: `${animatedSkills[skill.label] ?? 0}%` }}
                   />
                 </div>

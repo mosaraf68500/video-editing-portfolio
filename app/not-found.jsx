@@ -6,7 +6,7 @@ export default function NotFound() {
     <main className="grid min-h-screen place-items-center bg-[#050617] px-4 py-16 text-white">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute left-1/2 top-20 h-96 w-96 -translate-x-1/2 rounded-full bg-[#8A1FFF]/25 blur-3xl" />
-        <div className="absolute bottom-20 right-10 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
+        <div className="absolute bottom-20 right-10 h-72 w-72 rounded-full bg-[#8A1FFF]/10 blur-3xl" />
       </div>
 
       <section className="glass-card relative w-full max-w-2xl rounded-[2rem] p-8 text-center sm:p-12">

@@ -146,8 +146,10 @@ export default function FeaturedFilmsPage() {
           >
             Back to Home
           </Link>
-          <h1 className="text-4xl font-black tracking-tight text-cyan-300 sm:text-6xl">
+          <h1 className="text-4xl font-black tracking-tight sm:text-6xl">
+            <span className="gradient-text">
             Featured Films
+            </span>
           </h1>
           <p className="mx-auto mt-5 max-w-4xl text-base leading-8 text-slate-400 sm:text-lg">
             Explore recent video edits where creativity meets precision, crafted
@@ -163,8 +165,10 @@ export default function FeaturedFilmsPage() {
               <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-violet-300">
                 {firstFeatured.category}
               </p>
-              <h2 className="text-3xl font-black text-cyan-300 sm:text-4xl">
+              <h2 className="text-3xl font-black sm:text-4xl">
+                <span className="gradient-text">
                 {firstFeatured.title}
+                </span>
               </h2>
               <p className="mt-6 leading-8 text-slate-400">
                 {firstFeatured.description}
@@ -204,8 +208,10 @@ export default function FeaturedFilmsPage() {
               <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-violet-300">
                 {secondFeatured.category}
               </p>
-              <h2 className="text-3xl font-black text-cyan-300 sm:text-4xl">
+              <h2 className="text-3xl font-black sm:text-4xl">
+                <span className="gradient-text">
                 {secondFeatured.title}
+                </span>
               </h2>
               <p className="mt-6 leading-8 text-slate-400">
                 {secondFeatured.description}
@@ -228,8 +234,10 @@ export default function FeaturedFilmsPage() {
       <section data-reveal className="pb-24">
         <div className="section-shell">
           <div className="mb-10 text-center">
-            <h2 className="text-3xl font-black tracking-tight text-cyan-300 sm:text-5xl">
+            <h2 className="text-3xl font-black tracking-tight sm:text-5xl">
+              <span className="gradient-text">
               Our Recent Projects
+              </span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl leading-8 text-slate-400">
               A few reel edits from my short-form video work.

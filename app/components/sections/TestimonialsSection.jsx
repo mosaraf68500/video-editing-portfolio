@@ -8,12 +8,12 @@ import Rating from "../common/Rating";
 function ReviewSourceIcon({ source }) {
   const label = source?.slice(0, 1) || "?";
   const sourceStyles = {
-    Facebook: "bg-sky-500 text-white",
-    Instragram: "bg-pink-500 text-white",
-    Instagram: "bg-pink-500 text-white",
-    Fiverr: "bg-emerald-400 text-slate-950",
-    Upwork: "bg-lime-400 text-slate-950",
-    LinkedIn: "bg-sky-500 text-white",
+    Facebook: "bg-[#8A1FFF] text-white",
+    Instragram: "bg-[#8A1FFF] text-white",
+    Instagram: "bg-[#8A1FFF] text-white",
+    Fiverr: "bg-[#8A1FFF] text-white",
+    Upwork: "bg-[#8A1FFF] text-white",
+    LinkedIn: "bg-[#8A1FFF] text-white",
   };
 
   return (
