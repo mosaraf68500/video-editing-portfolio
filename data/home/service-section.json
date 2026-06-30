@@ -1,0 +1,16 @@
+{
+  "order": [
+    "documentary-video",
+    "reel-video",
+    "saas-video",
+    "logo-Intro",
+    "ai-video"
+  ],
+  "visuals": {
+    "documentary-video": "/service/documentary.png",
+    "reel-video": "/service/reel.png",
+    "saas-video": "/service/saas.png",
+    "ai-video": "/service/ai.png",
+    "logo-Intro": "/service/logo intro video.png"
+  }
+}

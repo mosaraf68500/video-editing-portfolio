@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Founder Journey Film",
+    "category": "Documentary Video",
+    "youtubeId": "_B1P_19Ed_A",
+    "thumbnail": "/thumbnails/day 5 x.png"
+  },
+  {
+    "title": "Fitness Reel With Captions",
+    "category": "Reel Video",
+    "youtubeId": "buU66xm5j5I",
+    "thumbnail": "/thumbnails/day 9 x.png"
+  },
+  {
+    "title": "SaaS Product Demo",
+    "category": "SaaS Video",
+    "youtubeId": "SxGSL4NNJYk",
+    "thumbnail": "/thumbnails/day12 x.png"
+  },
+  {
+    "title": "AI Avatar Promo",
+    "category": "AI Video",
+    "youtubeId": "0QXDnmpVLnA",
+    "thumbnail": "/thumbnails/day 2 x.png"
+  },
+  {
+    "title": "Logo Animation Reveal",
+    "category": "Logo Design",
+    "youtubeId": "m5wsUGvsRXU",
+    "thumbnail": "/thumbnails/logo.png"
+  }
+]
